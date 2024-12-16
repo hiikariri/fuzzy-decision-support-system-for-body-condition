@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VclTee.TeeGDIPlus, VCLTee.TeEngine,
   VCLTee.Series, Vcl.ExtCtrls, VCLTee.TeeProcs, VCLTee.Chart, Vcl.StdCtrls,
-  Vcl.Buttons, Vcl.Mask, Math, Vcl.ComCtrls;
+  Vcl.Buttons, Vcl.Mask, Math, Vcl.ComCtrls, Vcl.Grids;
 
 type
   TForm3 = class(TForm)
@@ -114,6 +114,14 @@ type
     Series69: TLineSeries;
     Series70: TLineSeries;
     Series71: TBarSeries;
+    StringGrid1: TStringGrid;
+    Label1: TLabel;
+    StringGrid2: TStringGrid;
+    StringGrid3: TStringGrid;
+    StringGrid4: TStringGrid;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
     procedure IMF_height_short(input_height, a, b, c: Double);
     procedure IMF_height_medium(input_height, a, b, c: Double);
     procedure IMF_height_tall(input_height, a, b, c: Double);
@@ -128,6 +136,7 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -362,6 +371,8 @@ begin
 end;
 
 procedure TForm3.BitBtn1Click(Sender: TObject);
+var
+  i: Integer;
 begin
   ListBox1.Clear;
   Series41.Clear;
@@ -376,6 +387,25 @@ begin
   IMF_weight_medium(input_weight_, 45, 60, 75);
   IMF_weight_heavy(input_weight_, 60, 75, 120);
   visualize_OMF(Series7, Series8, Series9);
+
+  i := 1;
+  while i <= StringGrid2.RowCount do
+  begin
+    StringGrid2.Cells[1, i] := FloatToStr(u_height_short);
+    StringGrid2.Cells[2, i] := FloatToStr(u_height_medium);
+    StringGrid2.Cells[3, i] := FloatToStr(u_height_tall);
+    i := i + 2;
+  end;
+
+  i := 1;
+  while i <= StringGrid2.ColCount do
+  begin
+    StringGrid2.Cells[i, 2] := FloatToStr(u_weight_light);
+    StringGrid2.Cells[i, 4] := FloatToStr(u_weight_medium);
+    StringGrid2.Cells[i, 6] := FloatToStr(u_weight_heavy);
+    i := i + 1;
+  end;
+
   ListBox1.Items.Add('u_HS: ' + FloatToStr(u_height_short));
   ListBox1.Items.Add('u_HM: ' + FloatToStr(u_height_medium));
   ListBox1.Items.Add('u_HD: ' + FloatToStr(u_height_tall));
@@ -430,6 +460,7 @@ end;
 procedure TForm3.BitBtn2Click(Sender: TObject);
 var
   temp: Double;
+  i: Integer;
 begin
   SetLength(u_body_condition, 3);
   SetLength(rule1, 3);
@@ -458,6 +489,7 @@ begin
   { fuzzy inference, max-min method }
   // Rule 1
   temp:= min(u_height_short, u_weight_light);
+  StringGrid3.Cells[1, 1] := FloatToStr(temp);
   rule1[0] := 0;
   rule1[1] := 0;
   rule1[2] := temp;
@@ -466,6 +498,7 @@ begin
   u_body_condition_I := max(u_body_condition_I, temp);
   // Rule 2
   temp:= min(u_height_medium, u_weight_light);
+  StringGrid3.Cells[2, 1] := FloatToStr(temp);
   rule2[0] := 0;
   rule2[1] := temp;
   rule2[2] := 0;
@@ -474,6 +507,7 @@ begin
   u_body_condition_FI := max(u_body_condition_FI, temp);
   // Rule 3
   temp:= min(u_height_tall, u_weight_light);
+  StringGrid3.Cells[3, 1] := FloatToStr(temp);
   rule3[0] := temp;
   rule3[1] := 0;
   rule3[2] := 0;
@@ -482,6 +516,7 @@ begin
   u_body_condition_NI := max(u_body_condition_NI, temp);
   // Rule 4
   temp:= min(u_height_short, u_weight_medium);
+  StringGrid3.Cells[1, 2] := FloatToStr(temp);
   rule4[0] := 0;
   rule4[1] := temp;
   rule4[2] := 0;
@@ -490,6 +525,7 @@ begin
   u_body_condition_FI := max(u_body_condition_FI, temp);
   // Rule 5
   temp:= min(u_height_medium, u_weight_medium);
+  StringGrid3.Cells[2, 2] := FloatToStr(temp);
   rule5[0] := 0;
   rule5[1] := 0;
   rule5[2] := temp;
@@ -498,6 +534,7 @@ begin
   u_body_condition_I := max(u_body_condition_I, temp);
   // Rule 6
   temp:= min(u_height_tall, u_weight_medium);
+  StringGrid3.Cells[3, 2] := FloatToStr(temp);
   rule6[0] := 0;
   rule6[1] := temp;
   rule6[2] := 0;
@@ -506,6 +543,7 @@ begin
   u_body_condition_FI := max(u_body_condition_FI, temp);
   // Rule 7
   temp:= min(u_height_short, u_weight_heavy);
+  StringGrid3.Cells[1, 3] := FloatToStr(temp);
   rule7[0] := temp;
   rule7[1] := 0;
   rule7[2] := 0;
@@ -514,6 +552,7 @@ begin
   u_body_condition_NI := max(u_body_condition_NI, temp);
   // Rule 8
   temp:= min(u_height_medium, u_weight_heavy);
+  StringGrid3.Cells[2, 3] := FloatToStr(temp);
   rule8[0] := 0;
   rule8[1] := temp;
   rule8[2] := 0;
@@ -522,6 +561,7 @@ begin
   u_body_condition_FI := max(u_body_condition_FI, temp);
   // Rule 9
   temp:= min(u_height_tall, u_weight_heavy);
+  StringGrid3.Cells[3, 3] := FloatToStr(temp);
   rule9[0] := 0;
   rule9[1] := 0;
   rule9[2] := temp;
@@ -533,8 +573,12 @@ begin
   u_body_condition[0] := u_body_condition_NI;
   u_body_condition[1] := u_body_condition_FI;
   u_body_condition[2] := u_body_condition_I;
-//  visualize_truncate(u_body_condition, Series37, Series38, Series39, Series40);
   visualize_OMF(Series37, Series38, Series39);
+
+  for i := 0 to StringGrid4.ColCount - 2 do
+  begin
+    StringGrid4.Cells[i + 1, 1] := FloatToStr(u_body_condition[i]);
+  end;
   ListBox1.Items.Add('uNI: ' + FloatToStr(u_body_condition[0]));
   ListBox1.Items.Add('uFI: ' + FloatToStr(u_body_condition[1]));
   ListBox1.Items.Add('uI: ' + FloatToStr(u_body_condition[2]));
@@ -548,6 +592,7 @@ var
   centroid_result, numerator, denumerator: Double;
 begin
   Series71.Clear;
+  Series40.Clear;
   SetLength(NI_z_result, 101);
   SetLength(FI_z_result, 101);
   SetLength(I_z_result, 101);
@@ -594,6 +639,48 @@ begin
   LabeledEdit4.Text := FloatToStr(u_body_condition_NI * 100);
   LabeledEdit5.Text := FloatToStr(u_body_condition_FI * 100);
   LabeledEdit6.Text := FloatToStr(u_body_condition_I * 100);
+end;
+
+procedure TForm3.FormCreate(Sender: TObject);
+begin
+  StringGrid1.Cells[0, 0] := 'TB/BB';
+  StringGrid1.Cells[1, 0] := 'Short';
+  StringGrid1.Cells[2, 0] := 'Medium';
+  StringGrid1.Cells[3, 0] := 'Tall';
+  StringGrid1.Cells[0, 1] := 'Light';
+  StringGrid1.Cells[0, 2] := 'Medium';
+  StringGrid1.Cells[0, 3] := 'Heavy';
+  StringGrid1.Cells[1, 1] := 'I';
+  StringGrid1.Cells[2, 1] := 'FI';
+  StringGrid1.Cells[3, 1] := 'NI';
+  StringGrid1.Cells[1, 2] := 'FI';
+  StringGrid1.Cells[2, 2] := 'I';
+  StringGrid1.Cells[3, 2] := 'FI';
+  StringGrid1.Cells[1, 3] := 'NI';
+  StringGrid1.Cells[2, 3] := 'FI';
+  StringGrid1.Cells[3, 3] := 'I';
+
+  StringGrid2.Cells[0, 0] := 'TB/BB';
+  StringGrid2.Cells[1, 0] := 'Short';
+  StringGrid2.Cells[2, 0] := 'Medium';
+  StringGrid2.Cells[3, 0] := 'Tall';
+  StringGrid2.Cells[0, 1] := 'Light';
+  StringGrid2.Cells[0, 3] := 'Medium';
+  StringGrid2.Cells[0, 5] := 'Heavy';
+
+  StringGrid3.Cells[0, 0] := 'TB/BB';
+  StringGrid3.Cells[1, 0] := 'Short';
+  StringGrid3.Cells[2, 0] := 'Medium';
+  StringGrid3.Cells[3, 0] := 'Tall';
+  StringGrid3.Cells[0, 1] := 'Light';
+  StringGrid3.Cells[0, 2] := 'Medium';
+  StringGrid3.Cells[0, 3] := 'Heavy';
+
+  StringGrid4.Cells[0, 0] := 'BC/uBC';
+  StringGrid4.Cells[1, 0] := 'TI';
+  StringGrid4.Cells[2, 0] := 'FI';
+  StringGrid4.Cells[3, 0] := 'I';
+  StringGrid4.Cells[0, 1] := 'uBC';
 end;
 
 end.

@@ -11,19 +11,50 @@ object Form3: TForm3
   Font.Name = 'Segoe UI'
   Font.Style = []
   OnClick = BitBtn2Click
+  OnCreate = FormCreate
   TextHeight = 15
+  object Label1: TLabel
+    Left = 176
+    Top = 531
+    Width = 60
+    Height = 15
+    Caption = 'Fuzzy Rules'
+  end
+  object Label2: TLabel
+    Left = 456
+    Top = 531
+    Width = 63
+    Height = 15
+    Caption = 'Rules Result'
+  end
+  object Label3: TLabel
+    Left = 736
+    Top = 531
+    Width = 21
+    Height = 15
+    Caption = 'Min'
+  end
+  object Label4: TLabel
+    Left = 1016
+    Top = 531
+    Width = 23
+    Height = 15
+    Caption = 'Max'
+  end
   object Chart1: TChart
     Left = 176
     Top = 16
     Width = 400
     Height = 250
+    Legend.Alignment = laTop
     Legend.CheckBoxes = True
     Title.Text.Strings = (
       'IMF Height')
     BottomAxis.Automatic = False
     BottomAxis.AutomaticMaximum = False
     BottomAxis.AutomaticMinimum = False
-    BottomAxis.Maximum = 220.000000000000000000
+    BottomAxis.Maximum = 200.000000000000000000
+    BottomAxis.Minimum = 140.000000000000000000
     BottomAxis.Title.Caption = 'Height (cm)'
     LeftAxis.Automatic = False
     LeftAxis.AutomaticMaximum = False
@@ -95,6 +126,7 @@ object Form3: TForm3
     BottomAxis.AutomaticMaximum = False
     BottomAxis.AutomaticMinimum = False
     BottomAxis.Maximum = 120.000000000000000000
+    BottomAxis.Minimum = 30.000000000000000000
     BottomAxis.Title.Caption = 'Weight (kg)'
     LeftAxis.Automatic = False
     LeftAxis.AutomaticMaximum = False
@@ -422,7 +454,7 @@ object Form3: TForm3
     Top = 272
     Width = 601
     Height = 250
-    ActivePage = TabSheet9
+    ActivePage = TabSheet1
     TabOrder = 14
     object TabSheet1: TTabSheet
       Caption = 'Rule 1'
@@ -1300,5 +1332,57 @@ object Form3: TForm3
         end
       end
     end
+  end
+  object StringGrid1: TStringGrid
+    Left = 176
+    Top = 552
+    Width = 265
+    Height = 119
+    ColCount = 4
+    DefaultRowHeight = 26
+    FixedCols = 0
+    RowCount = 4
+    FixedRows = 0
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goFixedRowDefAlign]
+    TabOrder = 15
+  end
+  object StringGrid2: TStringGrid
+    Left = 456
+    Top = 552
+    Width = 265
+    Height = 193
+    ColCount = 4
+    DefaultRowHeight = 26
+    FixedCols = 0
+    RowCount = 7
+    FixedRows = 0
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goFixedRowDefAlign]
+    TabOrder = 16
+  end
+  object StringGrid3: TStringGrid
+    Left = 736
+    Top = 552
+    Width = 265
+    Height = 119
+    ColCount = 4
+    DefaultRowHeight = 26
+    FixedCols = 0
+    RowCount = 4
+    FixedRows = 0
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goFixedRowDefAlign]
+    TabOrder = 17
+  end
+  object StringGrid4: TStringGrid
+    Left = 1016
+    Top = 552
+    Width = 265
+    Height = 71
+    ColCount = 4
+    DefaultRowHeight = 26
+    FixedCols = 0
+    RowCount = 2
+    FixedRows = 0
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goFixedRowDefAlign]
+    TabOrder = 18
   end
 end
